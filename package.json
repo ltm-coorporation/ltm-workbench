@@ -1,0 +1,24 @@
+{
+  "name": "ltm-workbench",
+  "version": "1.0.0",
+  "description": "Official ltm workbench desktop application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ltm-coorporation/ltm-workbench.git"
+  },
+  "keywords": [
+    "ltm",
+    "ltm-coorporation",
+    "ltm-workbench"
+  ],
+  "author": "prashant dawar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ltm-coorporation/ltm-workbench/issues"
+  },
+  "homepage": "https://github.com/ltm-coorporation/ltm-workbench#readme"
+}
