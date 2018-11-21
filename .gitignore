@@ -24,7 +24,8 @@ coverage
 .grunt
 
 # Bower dependency directory (https://bower.io/)
-bower_components
+#bower_components
+public/components
 
 # node-waf configuration
 .lock-wscript
@@ -59,3 +60,6 @@ typings/
 
 # next.js build output
 .next
+
+# release-buils
+release-builds
