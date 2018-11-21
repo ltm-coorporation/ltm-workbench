@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ltm-coorporation/ltm-workbench/issues"
   },
-  "homepage": "https://github.com/ltm-coorporation/ltm-workbench#readme"
+  "homepage": "https://github.com/ltm-coorporation/ltm-workbench#readme",
+  "devDependencies": {
+    "electron": "^3.0.10"
+  }
 }
