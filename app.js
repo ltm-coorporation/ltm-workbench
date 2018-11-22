@@ -11,7 +11,8 @@ function createWindow(){
         height: 600
     });
 
-    win.loadFile('index.html');
+    // win.loadFile('index.html');
+    win.loadFile('./views/stock/index.html');
 
     win.webContents.openDevTools()
 
