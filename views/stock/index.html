@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../../public/components/shared/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../public/components/app/views/css/validation.css">
 </head>
 
 
@@ -10,9 +11,13 @@
 
 
 <body>
+    <nav class="navbar navbar-light bg-dark">
+        <span class="navbar-brand text-light">Stock List</span>
+    </nav>
     <div class="container">
         <div class="row">
             <div id="form" class="col">
+                <br>
                 <div class="form-group">
                     <label for="stockName">Stock Name</label>
                     <input type="text" name="stock[name]" id="stock[name]" class="form-control" placeholder="Goods and Services">
@@ -28,7 +33,7 @@
                 <div class="form-group">
                     <label for="units">Units</label>
                     <select class="form-control" id="stock[unit]" name="stock[unit]" placeholder="cm, kg, pieces and more...">
-                        <option value="kg">Kilogram</option>
+                        <option value="kg" selected="selected">Kilogram</option>
                         <option value="piece">Pieces</option>
                     </select>
                 </div>

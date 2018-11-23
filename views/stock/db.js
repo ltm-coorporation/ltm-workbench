@@ -5,13 +5,12 @@
     
     var btnSave = document.getElementById('btnSave');
     
-        btnSave.addEventListener('click', (event) => {
-            
-            if(!btnSave.getAttribute("data-rev")) return stockCreate();
+    btnSave.addEventListener('click', (event) => {
+        
+        if(!btnSave.getAttribute("data-rev")) return stockCreate();
 
-            return stockUpdate();
-        });
-
+        return stockUpdate();
+    });
     
     function stockCreate(){
 
@@ -24,6 +23,7 @@
             notes: document.getElementById('stock[notes]').value
         };
 
+        validateStock(stock);
         stock._id = new Date().toISOString();
         
         db.put(stock, function callback(err, result){
@@ -32,6 +32,7 @@
                 stockRead();
                 clearForm();                  
             }
+            console.log(err);
         });
     }
 
@@ -42,8 +43,9 @@
         }, function(err, doc){
             if(err) return console.log(err);
 
-            redrawTable(doc.rows);
-            return true;
+            if(redrawTable(doc.rows)) return true;
+            
+            return false;
         });
     }
     
@@ -79,9 +81,23 @@
             db.remove(doc, function(err, response){
                 if(err) return console.log(err);
                 console.log("Document deleted");
-                stockRead();
+                if(stockRead()) return true;
+
+                return false;
             });
         })
+    }
+
+    function validateStock(stock){
+        // console.log(stock);
+
+        for(var prop in stock){
+            if(stock.hasOwnProperty(prop)){
+                if(!stock[prop]) {
+                    // document.getElementById("stock["+prop+"]").classList.add('err-input');
+                }
+            }
+        }
     }
 
     function redrawTable(stocks){
@@ -187,7 +203,7 @@
             document.getElementById("btnSave").removeAttribute("data-rev");
             document.getElementById("btnSave").removeAttribute("data-id");
             document.getElementById("btnSave").removeAttribute("class");
-            document.getElementById("btnSave").setAttribute('class','btn btn-success');
+            document.getElementById("btnSave").setAttribute('class','btn btn-primary');
             document.getElementById("btnSave").innerHTML = "Save";
             return true;
         }

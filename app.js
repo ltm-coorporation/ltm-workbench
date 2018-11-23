@@ -12,7 +12,8 @@ function createWindow(){
     });
 
     // win.loadFile('index.html');
-    win.loadFile('./views/stock/index.html');
+    // win.loadFile('./views/stock/index.html');
+    win.loadFile('./views/party/index.html');
 
     win.webContents.openDevTools()
 
