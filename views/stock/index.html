@@ -9,52 +9,58 @@
 
 
 
-<body>    
-    <div id="form">
-        <div class="form-group">
-            <label for="stockName">Stock Name</label>
-            <input type="text" name="stock[name]" id="stock[name]" class="form-control" placeholder="Goods and Services">
-        </div>
-        <div class="form-group">
-            <label for="sellingPrice">Selling Price</label>
-            <input type="text" name="stock[sp]" id="stock[sp]" class="form-control" placeholder="Selling Price in native currency">
-        </div>
-        <div class="form-group">
-            <label for="mrp">MRP</label>
-            <input type="text" name="stock[mrp]" id="stock[mrp]" class="form-control" placeholder="MRP in native currency">
-        </div>
-        <div class="form-group">
-            <label for="units">Units</label>
-            <select class="form-control" id="stock[unit]" name="stock[unit]" placeholder="cm, kg, pieces and more...">
-                <option value="kg">Kilogram</option>
-                <option value="piece">Pieces</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="taxRate">Tax Rate</label>
-            <input type="text" name="stock[tax]" id="stock[tax]" class="form-control" placeholder="Tax Rate">
-        </div>
-        <div class="form-group">
-            <label for="notes">Notes</label>
-            <textarea name="stock[notes]" id="stock[notes]" class="form-control" placeholder="Notes"></textarea>
-        </div>
-        <button class="btn btn-primary" type="submit" id="btnSave">Save</button>
-    </div>
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="form" class="col">
+                <div class="form-group">
+                    <label for="stockName">Stock Name</label>
+                    <input type="text" name="stock[name]" id="stock[name]" class="form-control" placeholder="Goods and Services">
+                </div>
+                <div class="form-group">
+                    <label for="sellingPrice">Selling Price</label>
+                    <input type="text" name="stock[sp]" id="stock[sp]" class="form-control" placeholder="Selling Price in native currency">
+                </div>
+                <div class="form-group">
+                    <label for="mrp">MRP</label>
+                    <input type="text" name="stock[mrp]" id="stock[mrp]" class="form-control" placeholder="MRP in native currency">
+                </div>
+                <div class="form-group">
+                    <label for="units">Units</label>
+                    <select class="form-control" id="stock[unit]" name="stock[unit]" placeholder="cm, kg, pieces and more...">
+                        <option value="kg">Kilogram</option>
+                        <option value="piece">Pieces</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taxRate">Tax Rate</label>
+                    <input type="text" name="stock[tax]" id="stock[tax]" class="form-control" placeholder="Tax Rate">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea name="stock[notes]" id="stock[notes]" class="form-control" placeholder="Notes"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit" id="btnSave">Save</button>
+            </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Stock Name</th>
-                <th scope="col">Selling Price</th>
-                <th scope="col">MRP</th>
-                <th scope="col">Unit</th>
-                <th scope="col">Tax</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-        </tbody>
-    </table>
+            <div class="col-8" style="overflow-y: scroll; height: 600px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Stock Name</th>
+                            <th scope="col">Selling Price</th>
+                            <th scope="col">MRP</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Tax</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <script src="../../public/components/shared/pouchdb/dist/pouchdb.min.js"></script>
     <script src="renderer.js"></script>
     <script src="db.js"></script>

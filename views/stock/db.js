@@ -3,14 +3,15 @@
     var db = new PouchDB('ltm');
     var remote = false;   
     
-    document.getElementById('btnSave')
-        .addEventListener('click', (event) => {
-            stockCreate();
+    var btnSave = document.getElementById('btnSave');
+    
+        btnSave.addEventListener('click', (event) => {
+            
+            if(!btnSave.getAttribute("data-rev")) return stockCreate();
+
+            return stockUpdate();
         });
 
-   
-        
-  
     
     function stockCreate(){
 
@@ -23,21 +24,13 @@
             notes: document.getElementById('stock[notes]').value
         };
 
-       console.log(stock);
-
-       stock._id = new Date().toISOString();
+        stock._id = new Date().toISOString();
         
         db.put(stock, function callback(err, result){
             if(!err) {
                 console.log('Successfully saved');
                 stockRead();
-
-                var inputFields = document.getElementsByTagName('input');
-                for(let i =0; i < inputFields.length; i++){
-                    inputFields[i].value = "";
-                }
-
-                document.getElementById("stock[notes]").value = "";                    
+                clearForm();                  
             }
         });
     }
@@ -47,74 +40,158 @@
             include_docs: true,
             descending: true
         }, function(err, doc){
-            // console.log(doc.rows);
+            if(err) return console.log(err);
+
             redrawTable(doc.rows);
-            
+            return true;
         });
     }
-    function stockUpdate(){}
-    function stockDelete(){}
+    
+    function stockUpdate(){
+        var stock = {
+            name: document.getElementById('stock[name]').value,
+            sp: document.getElementById('stock[sp]').value,
+            mrp: document.getElementById('stock[mrp]').value,
+            unit: document.getElementById('stock[unit]').value,
+            tax: document.getElementById('stock[tax]').value,
+            notes: document.getElementById('stock[notes]').value,
+            _id: document.getElementById('btnSave').getAttribute('data-id'),
+            _rev: document.getElementById('btnSave').getAttribute('data-rev')
+        };
+
+        db.put(stock, function(err, doc){
+            if(err) return console.log(err);
+
+            console.log(doc);
+            stockRead();
+            clearForm();
+            if(toggleSaveButton("save", doc)) return true;
+            
+             return true;
+        });        
+    }
+
+    function stockDelete(docID){
+
+        db.get(docID, function(err, doc){
+            if(err) return console.log(err);
+
+            db.remove(doc, function(err, response){
+                if(err) return console.log(err);
+                console.log("Document deleted");
+                stockRead();
+            });
+        })
+    }
 
     function redrawTable(stocks){
         var tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
 
-        // stocks.forEach(function(element){
-        //     console.log(element);
-        // });
         stocks.forEach(stockRow => {   
-            // console.log(stockRow.doc);
             tbody.appendChild(createStockRow(stockRow.doc));
         });
 
-        addUpdateClickListener();
+        addActionClickListener();
+        return true;
     }
 
     function createStockRow(stock){
         var tr = document.createElement('tr');
         var td = document.createElement('td');
-
+        
         td.innerHTML = stock.name;
         tr.appendChild(td.cloneNode(true));
         td.innerHTML = stock.sp;
         tr.appendChild(td.cloneNode(true));
-        td.innerHtml = stock.mrp;
+        td.innerHTML = stock.mrp;
         tr.appendChild(td.cloneNode(true));
-        td.innerHtml = stock.unit;
+        td.innerHTML = stock.unit;
         tr.appendChild(td.cloneNode(true));
-        td.innerHtml = stock.tax;
+        td.innerHTML = stock.tax;
         tr.appendChild(td.cloneNode(true));
         
+        td.innerHTML = "";
         var actionButton = document.createElement('button');
-        actionButton.innerHTML = "Update";
         actionButton.id = stock._id;
-        actionButton.className = "btn btn-primary btn-update";
-        actionButton.setAttribute('data-rev', stock._rev);
-        console.log(stock);
-        tr.appendChild(actionButton);
         
-        // console.log(tr);
+        actionButton.innerHTML = "Update";        
+        actionButton.className = "btn btn-primary btn-update";
+        td.appendChild(actionButton.cloneNode(true));
+
+        actionButton.innerHTML = "Delete";
+        actionButton.className = "btn btn-primary btn-delete";
+        td.appendChild(actionButton.cloneNode(true));
+
+        tr.appendChild(td);
+        
         return tr;
     }
 
-
-    
-
     stockRead();
 
-    function addUpdateClickListener(){
+    function addActionClickListener(){
         var btnUpdate = document.getElementsByClassName('btn-update');
 
         for(let i = 0; i < btnUpdate.length; i++){
-            btnUpdate[i].addEventListener('click', (event) =>{
-                console.log(btnUpdate[i]);
-                populateUpdateForm();
+            btnUpdate[i].addEventListener('click', (event) =>{                
+                populateUpdateForm(btnUpdate[i]);
+            });
+        }
+
+        var btnDelete = document.getElementsByClassName('btn-delete');
+
+        for(let i = 0; i < btnUpdate.length; i++){
+            btnDelete[i].addEventListener('click', (event) =>{                
+                stockDelete(btnDelete[i].getAttribute('id'));
             });
         }
     }
 
-    function populateUpdateForm(){
-        db.get()
+    function populateUpdateForm(element){
+        db.get(element.getAttribute("id"), function(err, doc){
+            if(err) return console.log(err);
+            console.log(doc);
+            document.getElementById("stock[name]").value = doc.name;
+            document.getElementById("stock[sp]").value = doc.sp;
+            document.getElementById("stock[mrp]").value = doc.mrp;
+            document.getElementById("stock[unit]").value = doc.unit;
+            document.getElementById("stock[tax]").value = doc.tax;
+            document.getElementById("stock[notes]").value = doc.notes;
+            if(toggleSaveButton("update", doc)) return true;
+            
+            return false;
+        });
     }
     
+    function clearForm(){
+        var inputFields = document.getElementsByTagName('input');
+        for(let i =0; i < inputFields.length; i++){
+            inputFields[i].value = "";
+        }
+
+        document.getElementById("stock[notes]").value = "";  
+    }
+
+    function toggleSaveButton(innerHtml, doc){
+        if(innerHtml == "update"){
+            document.getElementById("btnSave").setAttribute("data-rev", doc._rev);
+            document.getElementById("btnSave").setAttribute("data-id", doc._id);
+            document.getElementById("btnSave").classList.remove("btn-primary");
+            document.getElementById("btnSave").classList.add("btn-success");
+            document.getElementById("btnSave").innerHTML = "Update";
+            return true;
+        }
+
+        if(innerHtml == "save"){
+            document.getElementById("btnSave").removeAttribute("data-rev");
+            document.getElementById("btnSave").removeAttribute("data-id");
+            document.getElementById("btnSave").removeAttribute("class");
+            document.getElementById("btnSave").setAttribute('class','btn btn-success');
+            document.getElementById("btnSave").innerHTML = "Save";
+            return true;
+        }
+
+        return false;        
+    }
 })();
