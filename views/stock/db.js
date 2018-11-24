@@ -64,7 +64,7 @@
         db.put(stock, function(err, doc){
             if(err) return console.log(err);
 
-            console.log(doc);
+            // console.log(doc);
             stockRead();
             clearForm();
             if(toggleSaveButton("save", doc)) return true;

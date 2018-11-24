@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../../public/components/shared/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../public/components/app/views/css/validation.css">
+    <link rel="stylesheet" href="../../public/components/app/views/css/form.css">
 </head>
 
 
@@ -31,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <!-- <label for="customer[whatsapp]">Whatsapp</label> -->
-                        <input type="text" name="customer[whatsapp]" id="customer[phone]" class="form-control" placeholder="Whatsapp">
+                        <input type="text" name="customer[whatsapp]" id="customer[whatsapp]" class="form-control" placeholder="Whatsapp">
                     </div>
                     <div class="form-group">
                         <!-- <label for="customer[email]">Email</label> -->
@@ -60,7 +61,7 @@
                     <button class="btn btn-primary" id="btnSave" type="submit">Save</button>
                 </div>
             </div>
-            <div class="col">
+            <div class="col" style="overflow-y: scroll; height: 600px;">
                 <table class="table">
                     <thead>
                         <tr>
@@ -73,6 +74,9 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
+                    <tbody id="tableBody">
+
+                    </tbody>
                 </table>
             </div>
         </div>
